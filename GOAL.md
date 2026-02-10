@@ -1,10 +1,15 @@
-Build hyperlink_button that has absolutely the same API and functionality as stock Stramlit button but looks like a stypical hoverable text. The challenge is there's no way to create an interactive element which looks and behaves like a link but allows to use it as button element in streamlit (don't confuse with streamlit's exisating link_button control which looks like button but bhaves like a hyperlink).
+Goal:
+Build `hyperlink_button` Streamlit element that has absolutely the same API and functionality as stock Stramlit button but looks like a stypical hoverable text. 
+
+Context:
+The challenge is there's no way to create an interactive element which looks and behaves like a link but allows to use it as button element in streamlit (don't confuse with streamlit's exisating link_button control which looks like button but bhaves like a hyperlink). Workarounds via JS injects is the only ugly way to get a tru hypelink looking button in St. This element will allow ST devs to import the new libary and use the element.
 
 Operating mode:
 - Excecrise autonomy
 - Do not bother the user if you're not done until absolutely necessary
 - Execute research, preparations, planning, building and testing
 - Delegate
+- Fight bloat fiercely
 - Be accountable for the end results
 
 Verification:
