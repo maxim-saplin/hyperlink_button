@@ -1,0 +1,11 @@
+.git
+.opencode-subagent
+.claude
+st_docs
+.venv
+__pycache__
+*.pyc
+dist
+build
+.pytest_cache
+node_modules
