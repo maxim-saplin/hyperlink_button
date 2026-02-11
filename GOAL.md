@@ -21,6 +21,8 @@ Verification:
 - Utilize headless browsing to check what is being rendered by streamlit
 
 Constrains:
+- ALL WORK DONE AND TESTED IN DOCKER CONTAINER: prep image, mount repo there, use docker as snadbox, do not run any CLI commands against host beyond what is necessary to prep/interact with docker
+- DO NOT UPDATE ANY FILES BY YOURSELF until it's some minor fix not worth delegation, always rely on subagents
 - Use uv and Python 3.13 for development
 - Use only the most recent versions of libraries, i.e. never hardcode versions in pyproject.toml, install via uv the most recent versions
 - Only use docker for runtime checks, run and inspect the app inside container, use CLI via docker
@@ -50,6 +52,7 @@ Models available:
 
 STEP 0!!! Before we kick of the project and you take the drivers seat:
 - Verify environment using CLI and make sure you are equiped with all necessary tools
-- Shoot if you consider the request unvaiable
+- Shoot if you consider the request non-viable
 - Ask questions, if any
+- Create AGENTS.md touching the most important bit and arrangements in the repo, the file will be utilizer by subagents
 
