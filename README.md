@@ -2,6 +2,8 @@
 
 `hyperlink_button` is a Streamlit custom component that looks like a hoverable text link, but behaves like `st.button`.
 
+<img width="650" alt="image" src="https://github.com/user-attachments/assets/32e07e55-a575-4c6d-aa87-30da35915d11" />
+
 ## Install
 
 From source (dev):
