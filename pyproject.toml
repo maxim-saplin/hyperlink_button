@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hyperlink_button"
+version = "0.1.0"
+description = "Streamlit custom component: hyperlink-like button with stock button API"
+authors = [ { name = "OpenCode" } ]
+requires-python = ">=3.13"
+license = { text = "MIT" }
+readme = "README.md"
+keywords = ["streamlit", "component", "ui", "web", "python"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+dependencies = [
+  # unpinned; resolve latest at install time
+  "streamlit",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-xdist",
+  "requests",
+  "playwright",
+  "build",
+  "twine",
+  "ruff",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/hyperlink_button"
+Source = "https://github.com/your-org/hyperlink_button"
+Issues = "https://github.com/your-org/hyperlink_button/issues"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hyperlink_button*"]
+
+[tool.setuptools.package-data]
+hyperlink_button = ["frontend/build/**"]
