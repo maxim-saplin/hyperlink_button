@@ -6,6 +6,11 @@
 
 ## Install
 
+From PyPI:
+```
+pip install hyperlink-button
+```
+
 From source (dev):
 
 ```bash
