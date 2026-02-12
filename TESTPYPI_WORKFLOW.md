@@ -1,6 +1,8 @@
 # Test PyPI Publishing Workflow
 
-This repository includes a GitHub Actions workflow to automatically publish the `hyperlink_button` package to Test PyPI.
+This repository includes a GitHub Actions workflow to automatically publish the `hyperlink_button` package to **Test PyPI** for testing purposes.
+
+**For production releases to PyPI, see [PYPI_WORKFLOW.md](PYPI_WORKFLOW.md)**
 
 ## Workflow File
 
