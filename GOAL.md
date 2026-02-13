@@ -2,15 +2,7 @@ Goal
 Build a `hyperlink_button` Streamlit element that has exactly the same API and behavior as `st.button`, but renders as a typical hoverable hyperlink.
 
 Context
-Streamlit has `st.link_button` (looks like a button, behaves like a link). There is no built-in interactive element that looks and behaves like a hyperlink but functions like a button. This project provides a clean, testable, publishable component to fill that gap.
-
-Operating mode (manager, not implementer)
-- Exercise autonomy.
-- Delegate implementation work to subagents; do not do feature coding yourself.
-- Focus on orchestration: research, preparation, planning, integration, and verification.
-- Fight bloat fiercely; prefer the smallest viable design that satisfies parity + testability.
-- Do not interrupt the user unless blocked or a decision materially changes the outcome.
-- Be accountable for end results (tests passing in Docker, package buildable, docs complete).
+Streamlit has `st.link_button` (looks like a button, behaves like a link). There is no built-in interactive element that looks and behaves like a hyperlink but functions like a button. This project provides a clean, testable, publishable component to fill that gap. The repo contains `st_docs/` (Streamlit docs mirror) and it must be used for research.
 
 Non-negotiable constraints
 - ALL WORK MUST BE DONE AND TESTED IN A DOCKER CONTAINER.
@@ -26,7 +18,6 @@ Deliverables
 - Automated tests (unit + integration) including Streamlit widget testing.
 - Headless browser verification of rendered output.
 - Documentation, including an exhaustive PyPI release manual.
-- The repo contains `st_docs/` (Streamlit docs mirror) and it must be used for research.
 
 Delegation primitives (tooling reality)
 - `opencode-subagent` skill (preferred): async, resumable sessions; use for any task that may require iteration.
@@ -37,7 +28,6 @@ Tool availability (critical)
 - Subagents MUST produce real patches (use `apply_patch`) rather than only describing changes.
 - If any agent claims it cannot edit files or lacks tool access, treat it as a mistake: correct it and require it to use `apply_patch`.
 
-Model policy (cost-aware escalation)
 Models available to `opencode-subagent`:
 - `azure/gpt-5-nano`: cheap, low capability
 - `azure/gpt-5-mini`: default workhorse
@@ -45,7 +35,7 @@ Models available to `opencode-subagent`:
 
 Model variants:
 - `medium` (default)
-- `high` (only for difficult integration/debugging)
+- `high` (for difficult integration/debugging or for cheaper models)
 
 Default usage:
 - Start with `azure/gpt-5-mini` + `medium` for most implementation work.
@@ -80,11 +70,7 @@ Coordination and overlap control (avoid integration traps)
   - lockfiles
   - Dockerfiles
   - `AGENTS.md`
-- Prefer wave-based execution:
-  - Wave 0: Docker harness + smoke checks (Streamlit runs + headless can connect)
-  - Wave 1: minimal vertical slice (component clicks and returns a value)
-  - Wave 2: API parity + hardening + docs
-  - Wave 3: release readiness (sdist/wheel, publish manual, final verification)
+
 
 Verification requirements
 - Tests must run in Docker.
@@ -93,7 +79,7 @@ Verification requirements
 - Use headless browsing to verify Streamlit render output.
 - Prefer delegating verification to a dedicated verifier subagent, but require evidence (logs/artifacts) either way.
 
-Ambiguity handling (don\'t interrupt mid-flight)
+Ambiguity handling (don't interrupt mid-flight)
 - Proceed with reasonable defaults when requirements are ambiguous.
 - Track assumptions/decisions in separate docs (e.g. `ASSUMPTIONS.md` / `DECISIONS.md`).
 - Only ask the user when blocked or the choice materially changes architecture/security/publishability.
