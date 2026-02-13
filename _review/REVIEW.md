@@ -1,6 +1,7 @@
 - Building from scratch Streamlit component, no human intervention beyond launching the long-horizon agent
 - It works! Looks good, sample app is minimal and OK
 ![alt text](image.png)
+- Found 2 bugs, major one with clicks not alaways working (incorrect state management) and minor when font was different from the rest of the app (not using Streamlit themes)
 - ~2h execution with no user intervention
 - Total Cost $4.32
 - Orcthestrator Cost: $3.59
