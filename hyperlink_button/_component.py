@@ -68,9 +68,12 @@ def hyperlink_button(
         f"_hyperlink_button:{key}" if key else f"_hyperlink_button:{instance_id}"
     )
     state_key = f"_hyperlink_button_last_click:{component_key}"
+    counter_key = f"_hyperlink_button_counter:{component_key}"
+    
     last_seen = int(st.session_state.get(state_key, 0) or 0)
+    saved_counter = int(st.session_state.get(counter_key, 0) or 0)
 
-    click_count = _HB_COMPONENT(
+    click_data = _HB_COMPONENT(
         key=component_key,
         label=label,
         instance_id=instance_id,
@@ -83,24 +86,37 @@ def hyperlink_button(
         use_container_width=use_container_width,
         width=width,
         shortcut=shortcut,
-        default=0,
+        initialCounter=saved_counter,
+        default={"type": "mount", "counter": 0},
     )
 
-    # Component returns an int counter; convert to ephemeral bool.
-    try:
-        click_count_int = int(click_count or 0)
-    except Exception:
-        click_count_int = 0
+    # Handle different message types
+    if isinstance(click_data, dict):
+        msg_type = click_data.get("type", "click")
+        click_count_int = int(click_data.get("counter", 0) or 0)
+        
+        if msg_type == "mount":
+            # Component mounted, no click yet
+            return False
+    else:
+        # Legacy counter value (for backwards compatibility)
+        try:
+            click_count_int = int(click_data or 0)
+        except (ValueError, TypeError):
+            click_count_int = 0
 
     clicked = click_count_int > last_seen
+    
     # Mirror st.button's "trigger-like" behavior for users who rely on session_state.
     if key:
         st.session_state[key] = clicked
 
     if clicked:
         st.session_state[state_key] = click_count_int
+        st.session_state[counter_key] = click_count_int
         if on_click is not None:
             cb_args = args or ()
             cb_kwargs = kwargs or {}
             on_click(*cb_args, **cb_kwargs)
+    
     return clicked

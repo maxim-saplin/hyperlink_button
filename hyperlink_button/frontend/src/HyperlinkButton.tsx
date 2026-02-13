@@ -20,6 +20,7 @@ interface ComponentArgs {
   use_container_width?: boolean | null
   type?: ButtonType
   instance_id?: string | number | null
+  initialCounter?: number | null
 }
 
 const typeColors: Record<ButtonType, string> = {
@@ -64,10 +65,27 @@ const HyperlinkButton = (props: StreamlitComponentBase) => {
   const { args } = props
   const [clickCount, setClickCount] = useState(0)
 
+  // Restore counter from session state on mount
+  useEffect(() => {
+    if (args.initialCounter !== undefined && args.initialCounter !== null) {
+      const savedCounter = Number(args.initialCounter)
+      if (!isNaN(savedCounter) && savedCounter >= 0) {
+        setClickCount(savedCounter)
+      }
+    }
+  }, [args.initialCounter])
+
+  // Initialize component on mount
   useEffect(() => {
     setRootStyles(document.body)
     Streamlit.setFrameHeight()
-  }, [])
+    
+    // Send mount message to Python (only once on mount)
+    Streamlit.setComponentValue({ 
+      type: "mount", 
+      counter: 0  // Initial mount, counter will be restored from initialCounter
+    })
+  }, [])  // Empty dependency array - only run once on mount
 
   const label = typeof args.label === "string" ? args.label : ""
   const help = typeof args.help === "string" ? args.help : undefined
@@ -90,7 +108,11 @@ const HyperlinkButton = (props: StreamlitComponentBase) => {
     }
     setClickCount((prev) => {
       const next = prev + 1
-      Streamlit.setComponentValue(next)
+      // Send counter with metadata
+      Streamlit.setComponentValue({ 
+        type: "click", 
+        counter: next 
+      })
       return next
     })
   }, [disabled])
