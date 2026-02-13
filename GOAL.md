@@ -1,66 +1,110 @@
-Goal:
-Build a `hyperlink_button` Streamlit element that has exactly the same API and functionality as the standard Streamlit button, but looks like a typical hoverable hyperlink.
+Goal
+Build a `hyperlink_button` Streamlit element that has exactly the same API and behavior as `st.button`, but renders as a typical hoverable hyperlink.
 
-Context:
-The challenge is that there is currently no way to create an interactive element in Streamlit that looks and behaves like a hyperlink but functions as a button (distinct from Streamlit's existing `link_button` control, which looks like a button but behaves like a hyperlink). Workarounds via JS injection are an inelegant solution for achieving a true hyperlink-looking button in Streamlit. This new element will allow Streamlit developers to import the library and use the element.
+Context
+Streamlit has `st.link_button` (looks like a button, behaves like a link). There is no built-in interactive element that looks and behaves like a hyperlink but functions like a button. This project provides a clean, testable, publishable component to fill that gap.
 
-Operating mode:
-- Exercise autonomy
-- Delegate, do not do the work yourself
-- Focus on integrating and verifying the work of subagents
-- Execute research, preparation, planning, building, and testing
-- Fight bloat fiercely
-- Do not bother the user until necessary if you are not finished
-- Be accountable for end results
+Operating mode (manager, not implementer)
+- Exercise autonomy.
+- Delegate implementation work to subagents; do not do feature coding yourself.
+- Focus on orchestration: research, preparation, planning, integration, and verification.
+- Fight bloat fiercely; prefer the smallest viable design that satisfies parity + testability.
+- Do not interrupt the user unless blocked or a decision materially changes the outcome.
+- Be accountable for end results (tests passing in Docker, package buildable, docs complete).
 
-Verification:
-- Ensure the code being built is tested
-- Use unit and integration tests
-- Utilize CLI
-- Utilize Streamlit's widget testing
-- Use headless browsing to verify Streamlit render output
+Non-negotiable constraints
+- ALL WORK MUST BE DONE AND TESTED IN A DOCKER CONTAINER.
+  - Host commands are permitted only to orchestrate Docker (build/run/logs/cp).
+  - Do not run `uv`, `python`, `pytest`, `npm`, etc. on the host.
+- Use `uv` and Python 3.13 for development.
+- Use the most recent versions of libraries; never manually type/pin versions; rely on CLI workflows (e.g. `uv add`).
+- Only use Docker for runtime checks; run and inspect the app inside the container.
 
-Constraints:
-- ALL WORK MUST BE DONE AND TESTED IN A DOCKER CONTAINER: prepare image, mount repo, use Docker as sandbox, do not run any CLI commands against host except as necessary to interact with Docker
-- DO NOT DO CODING BY YOURSELF, YOU'VE GOT SUB-AGENTS FOR THAT
-- Use uv and Python 3.13 for development
-- Use only the most recent versions of libraries; never manually type in versions rely on CLI for package amanagemenbt (e.g. uv add)
-- Only use Docker for runtime checks, run and inspect the app inside the container, use CLI via Docker
+Deliverables
+- Python library ready for PyPI.
+- A simple example app in-repo.
+- Automated tests (unit + integration) including Streamlit widget testing.
+- Headless browser verification of rendered output.
+- Documentation, including an exhaustive PyPI release manual.
+- The repo contains `st_docs/` (Streamlit docs mirror) and it must be used for research.
 
-Important notes:
-- The library must be covered with automated tests and documentation
-- The library must be ready for publishing to PyPI
-- An exhaustive manual for the PyPI release must be created (assume the user has never published to PyPI but has experience publishing to pub.dev)
-- The repo must include a simple test app that a user can run to test the control
-- The repo contains a ./st_docs/ symlink—this is a directory with Streamlit docs, used for research and exploration; it must have the manual for extension building
+Delegation primitives (tooling reality)
+- `opencode-subagent` skill (preferred): async, resumable sessions; use for any task that may require iteration.
+- `task` (avoid at orchestrator level): one-off, non-resumable; use only for quick exploration. Subagents may spawn short-lived `task` agents as needed.
 
-Orchestration approach:
-- Delegate work to subagents: plan, describe tasks, verify—do not waste your cognitive bandwidth on small things. Be the leader and the manager. Management is the art of achieving results through the efforts of others.
-- Use the `opencode-subagent` skill for larger tasks where session resumption, more inputs, and adjustments are needed
-  - Plan macro-tacks, do not hesitate to ask resumabe subagents to follow-up and iterate
-  - When reasonable - ask subagents to do nested delegation via `task` tool
-  - When using opencode-subagent, explicitly define the model to be used
-- Don't use `task` directly, push subagents to create smaller shortlived subagents via `task`
-- Prioritase use of less expensive subagents, deffer to stronger subagent only when absilutely necessary (you are hitting a roadblock)
-- If the environment changes, update AGENTS.md to efficiently guide new subagents
+Tool availability (critical)
+- Tool parity: subagents have exactly the same tools as the orchestrator, including file editing via `apply_patch` and command execution via `bash`.
+- Subagents MUST produce real patches (use `apply_patch`) rather than only describing changes.
+- If any agent claims it cannot edit files or lacks tool access, treat it as a mistake: correct it and require it to use `apply_patch`.
 
-
+Model policy (cost-aware escalation)
 Models available to `opencode-subagent`:
-- azure/gpt-5-nano: low intelligence, cheap, 272k context
-- azure/gpt-5-mini: medium intelligence, moderate cost, 272k context
-- azure/gpt-5.2-codex: high intelligence, coding-focused, expensive, 272k context
+- `azure/gpt-5-nano`: cheap, low capability
+- `azure/gpt-5-mini`: default workhorse
+- `azure/gpt-5.2-codex`: expensive, best for hard integration/debugging
 
+Model variants:
+- `medium` (default)
+- `high` (only for difficult integration/debugging)
 
-Model variants available: 'medium' and 'high' for different reasoning needs.
+Default usage:
+- Start with `azure/gpt-5-mini` + `medium` for most implementation work.
+- Use `azure/gpt-5-nano` for reconnaissance, doc reading, and mechanical tasks.
+- Escalate to `azure/gpt-5.2-codex` and/or `high` only after a clear roadblock (repeat failures, subtle Streamlit/component protocol issues, flaky E2E).
 
-Tools available: all subagents have exactly the same tools as orchestrator.
+Orchestrator edit policy (bounded authority)
+- Default: orchestrator does not change implementation code.
+- Allowed orchestrator edits:
+  - Steering/governance docs (e.g. `AGENTS.md`, this file).
+  - Mechanical integration glue (conflict resolution, wiring, renames) when necessary.
+- Any non-mechanical implementation change must be delegated as a work order to a subagent.
+
+Work-order discipline (prevents overlap + bloat)
+- Every subagent task must be issued as a work order with:
+  - Objective (one sentence)
+  - Allowed paths (explicit allowlist)
+  - Forbidden paths (explicit denylist)
+  - Acceptance criteria (observable outcomes)
+  - Docker-only verification commands
+  - Model + variant
+- Require a handoff packet from subagents:
+  - changed paths
+  - why (not a dump of code)
+  - verification performed + where logs/artifacts are
+  - known limitations + follow-ups
+
+Coordination and overlap control (avoid integration traps)
+- Do not run overlapping work orders that touch the same files.
+- Treat these as shared/locked files by default (only one active work order may touch at a time):
+  - `pyproject.toml`
+  - lockfiles
+  - Dockerfiles
+  - `AGENTS.md`
+- Prefer wave-based execution:
+  - Wave 0: Docker harness + smoke checks (Streamlit runs + headless can connect)
+  - Wave 1: minimal vertical slice (component clicks and returns a value)
+  - Wave 2: API parity + hardening + docs
+  - Wave 3: release readiness (sdist/wheel, publish manual, final verification)
+
+Verification requirements
+- Tests must run in Docker.
+- Use unit + integration tests.
+- Use Streamlit's widget testing where applicable.
+- Use headless browsing to verify Streamlit render output.
+- Prefer delegating verification to a dedicated verifier subagent, but require evidence (logs/artifacts) either way.
+
+Ambiguity handling (don\'t interrupt mid-flight)
+- Proceed with reasonable defaults when requirements are ambiguous.
+- Track assumptions/decisions in separate docs (e.g. `ASSUMPTIONS.md` / `DECISIONS.md`).
+- Only ask the user when blocked or the choice materially changes architecture/security/publishability.
 
 -----------------------------------------------------------------------------
 
-!!! STEP 0 !!! Before starting the project and taking the driver’s seat:
-- Verify the environment using CLI and make sure you have all necessary tools
-- Raise any concerns if you consider the request non-viable
-- Ask questions, if any
-- Create an initial version of AGENTS.md to be used by subagents
+STEP 0 (check-in before autonomous execution)
+- Verify Docker availability via CLI.
+- Raise concerns if the request appears non-viable.
+- Ask only blocking questions.
+- Create/refresh `AGENTS.md` for subagents.
+- Confirm tool parity in practice (especially that subagents can use `apply_patch`).
 
-REITERATING, STEP 0 IS CHECK-IN WITH THE USER BEFORE KICKING OF THE AUTONOMOUS WORK!
+REITERATING: STEP 0 IS A CHECK-IN WITH THE USER BEFORE KICKING OFF AUTONOMOUS WORK.
