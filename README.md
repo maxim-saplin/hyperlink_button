@@ -39,13 +39,23 @@ st.write("clicked", clicked)
 
 Streamlit reference docs are available via the local `st_docs/` symlink.
 
-## Understanding the Implementation
+## Why Not Just Use Streamlit's Built-in Button?
 
-Ever wondered why a "simple button click" can have bugs? Or why there are multiple ways to fix them?
+**Streamlit's standard button (`st.button`)** uses Streamlit's built-in widget system:
+- **Native widget**: Registered in Streamlit's core widget registry with `register_widget()`
+- **Protobuf messages**: Communicates via `ButtonProto` protobuf messages to the frontend
+- **Trigger-based state**: Uses `value_type="trigger_value"` - returns True only on the script run where clicked
+- **No iframe**: Rendered directly in Streamlit's main React app, not in a separate iframe
 
-- **[Why Button Clicks Are Hard](WHY_BUTTON_CLICKS_ARE_HARD.md)** - Deep dive into distributed state synchronization
-- **[Visual Guide](VISUAL_GUIDE.md)** - Diagrams and flowcharts explaining the architecture
-- **[Diagnostic Summary](DIAGNOSTIC_SUMMARY.md)** - TL;DR of the click event issue
-- **[Full Diagnostic Report](DIAGNOSTIC_REPORT.md)** - Complete technical analysis
+**Custom components (like `hyperlink_button`)** are different:
+- **Separate iframe**: Each component runs in its own isolated iframe with its own React context
+- **Counter-based state**: Uses incrementing counter to detect clicks (subject to iframe remount issues)
+- **Custom styling**: Can implement completely custom appearance (like hyperlink style)
+- **Trade-off**: More flexibility but complexity in state synchronization across iframe boundary
 
-These documents explain the fundamental challenges of building reliable UI components in distributed web applications.
+**Why use custom component approach?**
+- Streamlit's built-in widgets have fixed styling and behavior
+- Cannot make a built-in button look like a plain text hyperlink
+- Custom components allow full control over appearance while maintaining button functionality
+
+The iframe remount bug exists because custom components must synchronize state across the iframe boundary, while built-in widgets don't have this issue.
