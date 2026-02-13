@@ -59,3 +59,13 @@ Streamlit reference docs are available via the local `st_docs/` symlink.
 - Custom components allow full control over appearance while maintaining button functionality
 
 The iframe remount bug exists because custom components must synchronize state across the iframe boundary, while built-in widgets don't have this issue.
+
+## Solutions to the Iframe Remount Bug
+
+Three solutions have been identified and analyzed. See **[SOLUTIONS.md](SOLUTIONS.md)** for detailed comparison:
+
+1. **Detect & Reset** (Quick fix, 10 min) - Detect when counter resets and fix it reactively
+2. **Use Timestamps** (Robust, 1 hour) - Replace counter with timestamps that never decrease  
+3. **Sync Counter** (Perfect, 3 hours) - Persist counter in session state and restore on mount
+
+Each solution has different trade-offs in complexity, robustness, and implementation time. The solutions document provides detailed code examples, pros/cons, and a decision guide.
