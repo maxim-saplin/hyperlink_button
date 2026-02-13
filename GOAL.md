@@ -19,6 +19,8 @@ Deliverables
 - Headless browser verification of rendered output.
 - Documentation, including an exhaustive PyPI release manual.
 
+Orchestrator delegates work, verifies and integrates.
+
 Delegation primitives (tooling reality)
 - `opencode-subagent` skill (preferred): async, resumable sessions; use for any task that may require iteration.
 - `task` (avoid at orchestrator level): one-off, non-resumable; use only for quick exploration. Subagents may spawn short-lived `task` agents as needed.
@@ -70,7 +72,6 @@ Coordination and overlap control (avoid integration traps)
   - lockfiles
   - Dockerfiles
   - `AGENTS.md`
-
 
 Verification requirements
 - Tests must run in Docker.
