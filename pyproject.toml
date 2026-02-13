@@ -7,7 +7,7 @@ name = "hyperlink_button"
 version = "0.1.0"
 description = "Streamlit custom component: hyperlink-like button with stock button API"
 authors = [ { name = "OpenCode" } ]
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 license = { text = "MIT" }
 readme = "README.md"
 keywords = ["streamlit", "component", "ui", "web", "python"]
