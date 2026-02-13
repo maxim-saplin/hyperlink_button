@@ -38,3 +38,14 @@ st.write("clicked", clicked)
 - Run demo: `streamlit run examples/demo_app.py`
 
 Streamlit reference docs are available via the local `st_docs/` symlink.
+
+## Understanding the Implementation
+
+Ever wondered why a "simple button click" can have bugs? Or why there are multiple ways to fix them?
+
+- **[Why Button Clicks Are Hard](WHY_BUTTON_CLICKS_ARE_HARD.md)** - Deep dive into distributed state synchronization
+- **[Visual Guide](VISUAL_GUIDE.md)** - Diagrams and flowcharts explaining the architecture
+- **[Diagnostic Summary](DIAGNOSTIC_SUMMARY.md)** - TL;DR of the click event issue
+- **[Full Diagnostic Report](DIAGNOSTIC_REPORT.md)** - Complete technical analysis
+
+These documents explain the fundamental challenges of building reliable UI components in distributed web applications.
