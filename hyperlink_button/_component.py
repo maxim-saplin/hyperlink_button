@@ -83,6 +83,7 @@ def hyperlink_button(
         use_container_width=use_container_width,
         width=width,
         shortcut=shortcut,
+        last_click_count=last_seen,
         default=0,
     )
 

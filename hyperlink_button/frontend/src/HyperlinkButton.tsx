@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import {
   Streamlit,
   StreamlitComponentBase,
@@ -20,6 +20,7 @@ interface ComponentArgs {
   use_container_width?: boolean | null
   type?: ButtonType
   instance_id?: string | number | null
+  last_click_count?: number | null
 }
 
 const typeColors: Record<ButtonType, string> = {
@@ -60,9 +61,19 @@ const normalizeWidth = (width: WidthOption | undefined, useContainer: boolean) =
   return "auto"
 }
 
+const parseLastClickCount = (value: unknown): number => {
+  if (typeof value === "number" && Number.isFinite(value) && value >= 0) {
+    return Math.floor(value)
+  }
+  return 0
+}
+
 const HyperlinkButton = (props: StreamlitComponentBase) => {
-  const { args } = props
-  const [clickCount, setClickCount] = useState(0)
+  const args = props.args as ComponentArgs
+  const [clickCount, setClickCount] = useState(() =>
+    parseLastClickCount(args.last_click_count)
+  )
+  const isFirstRender = useRef(true)
 
   useEffect(() => {
     setRootStyles(document.body)
@@ -88,25 +99,16 @@ const HyperlinkButton = (props: StreamlitComponentBase) => {
     if (disabled) {
       return
     }
-    setClickCount((prev) => {
-      const next = prev + 1
-      Streamlit.setComponentValue(next)
-      return next
-    })
+    setClickCount((prev) => prev + 1)
   }, [disabled])
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
-      if (disabled) {
-        return
-      }
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault()
-        handleActivate()
-      }
-    },
-    [disabled, handleActivate]
-  )
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    Streamlit.setComponentValue(clickCount)
+  }, [clickCount])
 
   const styles = {
     "--hb-color": typeColors[buttonType] ?? typeColors.primary,
@@ -125,7 +127,6 @@ const HyperlinkButton = (props: StreamlitComponentBase) => {
         className="hb-button"
         type="button"
         onClick={handleActivate}
-        onKeyDown={handleKeyDown}
         disabled={disabled}
         aria-disabled={disabled}
         title={help}

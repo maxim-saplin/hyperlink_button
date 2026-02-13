@@ -11,5 +11,10 @@ export default defineConfig({
     rollupOptions: {
       input: resolve(__dirname, "index.html")
     }
+  },
+  test: {
+    environment: "jsdom",
+    globals: true,
+    setupFiles: [],
   }
 })
