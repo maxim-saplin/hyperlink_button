@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.2] - 2026-02-13
+
+### Fixed
+- Respect Streamlit theme font: use `props.theme?.font` instead of hardcoded or inherited font, avoiding `-webkit-standard` in component iframe.
+
 ## [0.1.1] - 2026-02-13
 
 ### Fixed

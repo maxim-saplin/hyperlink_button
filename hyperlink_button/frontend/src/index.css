@@ -9,8 +9,9 @@
 }
 
 .hb-button {
-  font-family: "Source Serif 4", "Georgia", "Times New Roman", serif;
-  font-size: 0.98rem;
+  /* Use Streamlit theme font when passed; fallback to sans-serif to match app default */
+  font-family: var(--hb-font, sans-serif);
+  font-size: inherit;
   color: var(--hb-color, #1a73e8);
   background: transparent;
   border: none;

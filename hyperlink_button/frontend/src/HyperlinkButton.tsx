@@ -70,6 +70,7 @@ const parseLastClickCount = (value: unknown): number => {
 
 const HyperlinkButton = (props: StreamlitComponentBase) => {
   const args = props.args as ComponentArgs
+  const fontFamily = props.theme?.font
   const [clickCount, setClickCount] = useState(() =>
     parseLastClickCount(args.last_click_count)
   )
@@ -112,6 +113,7 @@ const HyperlinkButton = (props: StreamlitComponentBase) => {
 
   const styles = {
     "--hb-color": typeColors[buttonType] ?? typeColors.primary,
+    "--hb-font": fontFamily ?? undefined,
     width: size
   } as React.CSSProperties
 
