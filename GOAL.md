@@ -19,11 +19,13 @@ Deliverables
 - Headless browser verification of rendered output.
 - Documentation, including an exhaustive PyPI release manual.
 
-Orchestrator delegates work, verifies and integrates.
+-----------------------------------------------------------------------------
+
+Orchestrator delegates work, verifies and integrates. Makes sure work is implemented by subagents, pushes work unti full completion and doesn't bother user user with intermediate reports.
 
 Delegation primitives (tooling reality)
 - `opencode-subagent` skill (preferred): async, resumable sessions; use for any task that may require iteration.
-- `task` (avoid at orchestrator level): one-off, non-resumable; use only for quick exploration. Subagents may spawn short-lived `task` agents as needed.
+- `task` tool (avoid at orchestrator level): one-off, non-resumable; use only for quick exploration. Subagents may spawn short-lived `task` agents as needed.
 
 Tool availability (critical)
 - Tool parity: subagents have exactly the same tools as the orchestrator, including file editing via `apply_patch` and command execution via `bash`.
@@ -35,14 +37,10 @@ Models available to `opencode-subagent`:
 - `azure/gpt-5-mini`: default workhorse
 - `azure/gpt-5.2-codex`: expensive, best for hard integration/debugging
 
-Model variants:
-- `medium` (default)
-- `high` (for difficult integration/debugging or for cheaper models)
-
 Default usage:
-- Start with `azure/gpt-5-mini` + `medium` for most implementation work.
+- Start with `azure/gpt-5-mini` for most implementation work.
 - Use `azure/gpt-5-nano` for reconnaissance, doc reading, and mechanical tasks.
-- Escalate to `azure/gpt-5.2-codex` and/or `high` only after a clear roadblock (repeat failures, subtle Streamlit/component protocol issues, flaky E2E).
+- Escalate/spawn `azure/gpt-5.2-codex` after a clear roadblock (repeat failures, subtle Streamlit/component protocol issues, flaky E2E).
 
 Orchestrator edit policy (bounded authority)
 - Default: orchestrator does not change implementation code.
