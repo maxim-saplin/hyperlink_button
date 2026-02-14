@@ -33,14 +33,12 @@ Tool availability (critical)
 - If any agent claims it cannot edit files or lacks tool access, treat it as a mistake: correct it and require it to use `apply_patch`.
 
 Models available to `opencode-subagent`:
-- `azure/gpt-5-nano`: cheap, low capability
 - `azure/gpt-5-mini`: default workhorse
 - `azure/gpt-5.2-codex`: expensive, best for hard integration/debugging
 
 Default usage:
-- Start with `azure/gpt-5-mini` for most implementation work.
-- Use `azure/gpt-5-nano` for reconnaissance, doc reading, and mechanical tasks.
-- Escalate/spawn `azure/gpt-5.2-codex` after a clear roadblock (repeat failures, subtle Streamlit/component protocol issues, flaky E2E).
+- Start with `azure/gpt-5-mini` for most work.
+- Escalate/spawn `azure/gpt-5.2-codex` after a clear roadblock (repeat failures, subtle Streamlit/component protocol issues, flaky E2E) OR what starting a long compex task/thread.
 
 Orchestrator edit policy (bounded authority)
 - Default: orchestrator does not change implementation code.
