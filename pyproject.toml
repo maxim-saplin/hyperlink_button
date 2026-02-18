@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hyperlink_button"
+version = "0.1.0"
+description = "Streamlit hyperlink-style button component."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.13"
+authors = [
+  { name = "Hyperlink Button Contributors" }
+]
+dependencies = [
+  "streamlit"
+]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "build",
+  "twine"
+]
+
+e2e = [
+  "playwright"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hyperlink_button"]
+force-include = { "src/hyperlink_button/frontend/build" = "hyperlink_button/frontend/build" }
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/hyperlink_button",
+  "README.md",
+  "docs",
+  "examples",
+  "pyproject.toml"
+]
+force-include = { "src/hyperlink_button/frontend/build" = "hyperlink_button/frontend/build" }

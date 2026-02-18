@@ -1,0 +1,16 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "8501:8501"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - UV_PROJECT_ENVIRONMENT=/app/.venv
+      - XDG_CACHE_HOME=/app/.cache
+      - PLAYWRIGHT_BROWSERS_PATH=/app/.cache/ms-playwright
+    tty: true
