@@ -1,0 +1,30 @@
+name: Docker CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: |
+          docker build -t hyperlink_button:dev .
+      - name: Run tests in container
+        run: |
+          docker run --rm -v "$PWD:/app" -w /app hyperlink_button:dev bash -lc "uv sync --dev && uv run pytest -q --ignore=tests/e2e"
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build E2E Docker image
+        run: |
+          docker build -f Dockerfile.e2e -t hyperlink_button:e2e .
+      - name: Run Playwright E2E tests
+        run: |
+          docker run --rm -v "$PWD:/app" -w /app hyperlink_button:e2e bash -lc "uv sync --dev && uv run pytest -q tests/e2e"

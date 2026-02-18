@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hyperlink_button"
+version = "0.1.0"
+description = "Streamlit hyperlink-style button component."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.13"
+dependencies = [
+  "streamlit",
+]
+
+[dependency-groups]
+dev = [
+  "pytest",
+  "playwright",
+  "requests>=2.32.5",
+]
+
+[project.urls]
+Repository = ""
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hyperlink_button"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

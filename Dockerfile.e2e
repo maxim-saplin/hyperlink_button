@@ -1,0 +1,29 @@
+FROM python:3.13-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV UV_PROJECT_ENVIRONMENT=/app/.venv
+
+WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends bash curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -Ls https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:${PATH}"
+
+COPY pyproject.toml uv.lock README.md LICENSE /app/
+COPY src /app/src
+COPY examples /app/examples
+COPY tests /app/tests
+
+RUN uv venv /app/.venv
+ENV PATH="/app/.venv/bin:${PATH}"
+
+RUN uv sync --dev
+
+# Install chromium + OS deps required by Playwright.
+RUN uv run playwright install --with-deps chromium
+
+CMD ["bash", "-lc", "uv run pytest -q tests/e2e"]
