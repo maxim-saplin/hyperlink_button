@@ -17,6 +17,7 @@ def _scoped_style_block(scope_id: str) -> str:
 - 4 tests, all pass, widget and playwright
 - Issue, README, dev section proposes to install systemwide
 - Orchestrator model: GPT-5.2
+- just `task` + GPT 5.2  prompt forcing delegation and docker
 
 ## opencode-subagent stats
 
