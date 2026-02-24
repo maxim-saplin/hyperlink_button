@@ -42,7 +42,7 @@ Orchestration approach:
   - When using opencode-subagent subagents explicitly define model to be used
 
 Exit criteria:
-- Before reporting back to
+- Before reporting back to user run verification agent using `task` with './QA.md' prompt and wait for resolution
 
 Models available:
 - azure/gpt-5-mini, medium intelligence, medium cost, 272k context window
