@@ -1,0 +1,23 @@
+{
+  "name": "hyperlink-button-frontend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --port 3001 --strictPort",
+    "dev": "vite --port 3001 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "streamlit-component-lib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.24",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.8.2",
+    "vite": "^6.1.0"
+  }
+}

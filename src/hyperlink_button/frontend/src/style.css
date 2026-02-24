@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400,0,0");
+
+:root {
+  --hb-link: #1f77b4;
+  --hb-link-hover: #0f4a8a;
+  --hb-link-active: #0a3566;
+  --hb-link-disabled: #7a7a7a;
+  --hb-focus-ring: #1a73e8;
+}
+
+.hb-container {
+  display: inline-block;
+}
+
+.hb-full {
+  width: 100%;
+}
+
+.hb-button {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--hb-link);
+  text-decoration: none;
+}
+
+.hb-button:hover {
+  color: var(--hb-link-hover);
+  text-decoration: underline;
+}
+
+.hb-button:active {
+  color: var(--hb-link-active);
+}
+
+.hb-button:focus-visible {
+  outline: 2px solid var(--hb-focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.hb-button:disabled {
+  color: var(--hb-link-disabled);
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+.hb-full .hb-button {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.hb-icon {
+  line-height: 1;
+}
+
+.hb-material {
+  font-family: "Material Symbols Rounded";
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.1em;
+  line-height: 1;
+  display: inline-flex;
+}
+
+.hb-label {
+  line-height: 1.2;
+}
+
+/* Variants mirror st.button intent but stay link-like. */
+.hb-primary {
+  font-weight: 600;
+}
+
+.hb-tertiary {
+  opacity: 0.9;
+}
