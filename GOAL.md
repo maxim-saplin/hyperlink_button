@@ -23,7 +23,6 @@ Verification:
 Constrains:
 - Use uv and Python 3.13 for development
 - Use only the most recent versions of libraries, i.e. never hardcode versions in pyproject.toml, install via uv the most recent versions
-- Only use docker for runtime checks, run and inspect the app inside container, use CLI via docker
 - Target Python 3.13 and above
 
 Important mentions:
@@ -42,14 +41,17 @@ Orchestration approach:
   - When using opencode-subagent don't be shy to also require using task subagents
   - When using opencode-subagent subagents explicitly define model to be used
 
+Exit criteria:
+- Before reporting back to
+
 Models available:
-- azure/gpt-5-nano, low intelligence, cheap, 272k context window
 - azure/gpt-5-mini, medium intelligence, medium cost, 272k context window
 - azure/gpt-5.2-codex, high intelligence, coding fopcusedm expnesive, 272k context window
 - yourself - high inteligence, good planner and general skill, expnesive, 272k context window
 
-STEP 0!!! Before we kick of the project and you take the drivers seat:
+PREFLIGHT-CHECK!!! Before we kick of the project and you take the driver's seat:
 - Verify environment using CLI and make sure you are equiped with all necessary tools
 - Shoot if you consider the request unvaiable
 - Ask questions, if any
+- Start autonomous work until reaching the goal when you get explicit user's confirmation via a short message "GO GO GO"
 
